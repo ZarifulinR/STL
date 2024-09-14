@@ -51,7 +51,8 @@ int main()
 		cout << "3) Удалить нарушителя: "; cout << endl;
 		cout << "2) Выход:"; cout << endl; cout << " \n";
 		
-		
+		cin.clear();
+		cin.ignore();
 		cin >> m;
 		
 		switch (m)
@@ -66,7 +67,7 @@ int main()
 				cout << it->first << tab << it->second << endl;
 			}
 			cout << endl;
-			return 0;
+
 			break;
 		case 2:
 			car.size();
@@ -77,8 +78,6 @@ int main()
 			
 			cout << " error" << endl;
 			cout<<delimeter;
-			
-			
 			
 		}
 		_getch();
