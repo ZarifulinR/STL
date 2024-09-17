@@ -37,7 +37,7 @@ class Crime
 	std::string licence_plate;
 	int id;
 	std::string place;
-	std::string time;
+	std::string time_t;
 public:
 	/*const std::string& get_licence_plate()const
 	{
@@ -194,5 +194,5 @@ void main()
 	}
 	fin.close();
 #endif // reed_2
-
+	
 }
