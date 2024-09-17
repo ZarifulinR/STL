@@ -10,9 +10,12 @@ using std::cout;
 using std::endl;
 #define tab "\t"
 #define delimiter "\n-------------------------------------------------------------------------------------------\n"
+//#define reed_char
+//#define reed_2
+//#define whrite_file
 const std::map<int, std::string> VIOLATION =
 {
-	{1," Ремень бузопасности"},
+	{1," Ремень безопасности"},
 	{2," Парковка в неположеном месте"},
 	{3," Пересечение cплошной"},
 	{4," Превышение скорости"},
@@ -89,12 +92,18 @@ public:
 		//cout << "Construktor:\t" << this << endl; 
 	}
 };
+
 std::ostream& operator<<(std::ostream& os, const Crime& obj)
 {
 	return os<< " :\t" << obj.get_time()<< " " << obj.get_plase()<<" - " << obj.get_violation();
 }
 void main()
 {
+	
+
+
+
+
 	setlocale(LC_ALL, "");
 	/*Crime crime(1, "ул. Ленина ", "18:10 1.09.2024");
 	cout << crime << endl;*/
@@ -104,7 +113,8 @@ void main()
 		{"a000bb", {Crime(6, "ул.Космонавтов", "17:50 1.08.2024"), Crime(8,"ул.Космонавтов", "17:45 01.08.2024")}},
 		{"a001аа", {Crime(10, "ул.Пролетарская", "21:50 1.08.2024"), Crime(9,"ул.Пролетарская", "21:50 1.08.2024"), Crime(11,"ул.Пролетарская", "21:50 1.08.2024"), Crime(12,"ул.Пролетарская", "22:05 1.08.2024")}},
 	};
-	for
+	
+	/*for
 		(
 			std::map<std::string, std::list<Crime>>::iterator map_it=base.begin();
 			map_it !=base.end();++map_it
@@ -116,5 +126,73 @@ void main()
 				cout << "\t" << *it << endl;
 			}
 			cout << delimiter << endl;
+	}*/
+
+	std::string myfile = "policebase.txt";
+	std::ofstream mypolicefile ;
+	mypolicefile.open(myfile,std::ofstream::app);
+#ifdef whrite_file
+	if (!mypolicefile.is_open())
+	{
+		cout << "Ошибка открытия файла! " << endl;
 	}
+	else
+	{
+
+		for
+			(
+				std::map<std::string, std::list<Crime>>::iterator map_it = base.begin();
+				map_it != base.end(); ++map_it
+				)
+		{
+			mypolicefile << map_it->first << "\n";
+			for (std::list<Crime>::iterator it = map_it->second.begin(); it != map_it->second.end(); ++it)
+			{
+				mypolicefile << "\t" << *it << endl;
+			}
+			mypolicefile << delimiter << endl;
+
+		}
+	}
+	mypolicefile.close();
+#endif // whrite_file
+	std::ifstream fin;
+	fin.open(myfile);
+#ifdef reed_char
+	if (!fin.is_open())
+	{
+		cout << "Ошибка открытия файйла:!" << endl;
+	}
+	else
+	{
+		cout << "Файл открыт:!" << endl;
+		char data;
+		while (fin.get(data))
+		{
+			cout << data;
+		}
+
+	}
+	fin.close();
+#endif // reed_char
+
+#ifdef reed_2
+	if (!fin.is_open())
+	{
+		cout << "Ошибка открытия файла:!" << endl;
+	}
+	else
+	{
+		cout << "Файл открыт:! " << endl;
+		char str[100];
+		while (!fin.eof())
+		{
+
+			fin.getline(str, 100);
+			cout << str << endl;
+		}
+	}
+	fin.close();
+#endif // reed_2
+
 }
