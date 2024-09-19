@@ -103,6 +103,10 @@ public:
 		tm copy = time;
 			return mktime(&copy);
 	}
+	void set_timestamp(time_t timestamp)
+	{
+		time = *localtime(&timestamp);
+	}
 	/////////   Constructors
 	Crime(int violation_id, const std::string& place, const std::string time)
 	{
@@ -122,6 +126,25 @@ std::ostream& operator<<(std::ostream& os, const Crime& obj)
 {
 	return os<< " :\t" << obj.get_time()<< " " << obj.get_plase()<<" - " << obj.get_violation();
 }
+//std::ofstream& operator<<(std::ofstream& os, const Crime& obj)
+//{
+//	return os;
+//		os<< ":\t" << obj.get_time() << " " << obj.get_plase() << "- " << obj.get_violation();
+//}
+std::istream& operator>>(std::istream is, Crime& obj)
+{
+	int id;
+	time_t timestamp;
+	std::string place;
+	is >> id >> timestamp;
+	std::getline(is, place, ',');
+	is.ignore();
+	obj.set_violation_id(id);
+	obj.set_timestamp(timestamp);
+	obj.set_place(place);
+		return is;
+}
+
 std::ofstream& operator<<(std::ofstream& os, const Crime& obj)
 {
 		os<< obj.get_violation() << " " << obj.get_timestamp() << " " << obj.get_plase();
@@ -141,9 +164,10 @@ void save(const std::map<std::string, std::list<Crime>>& base, const std::string
 		{
 			fout  << *it <<",";
 		}
-		fout.seekp(-1, std::ios::cur); ///Метод seekp(offset, direction) задает позицию курсора записи(P-путб
+		//fout.seekp(-1, std::ios::cur); ///Метод seekp(offset, direction) задает позицию курсора записи(P-путб
 		// -1 смешение на один символ обратно,std::ios::cur-показывает что смещение происходит от текущей позиции курсора
-		fout << "; \n";
+		//fout << "; \n";
+		fout << endl;
 	}
 	fout.close();
 	std::string command = "notepad " + filename;
@@ -166,6 +190,27 @@ void print(const std::map<std::string, std::list<Crime>>& base)
 		cout << delimiter << endl;
 	}
 
+}
+std::map<std::string, std::list<Crime>> load(const std::string& filename)
+{
+	std::map<std::string, std::list<Crime>> base;
+	std::ifstream fin(filename);
+	if (fin.is_open())
+	{
+		while (!fin.eof())
+		{
+			/*std::string buffer;
+			std::getline(fin, buffer, ':');
+			char delimiter[]=":"*/
+
+		}
+		fin.close();
+	}
+	else
+	{
+		std::cerr << "Error filenot found" << endl;
+	}
+	return base;
 }
 void main()
 {
