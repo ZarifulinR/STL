@@ -63,6 +63,12 @@ public:
 		strftime(formatted, SIZE, "%R,%e.%m.%Y", &time);
 			return formatted;
 	}
+	const time_t get_timestamp()const
+	{
+		tm copy = time;
+		return mktime(&copy);
+	}
+
 		
 	const std::string& get_plase()const
 	{
@@ -98,11 +104,7 @@ public:
 		this->time.tm_year = time_elements[4] - 1900;
 		//this->time = time;
 	}
-	const time_t get_timestamp()const 
-	{
-		tm copy = time;
-			return mktime(&copy);
-	}
+	
 	void set_timestamp(time_t timestamp)
 	{
 		time = *localtime(&timestamp);
