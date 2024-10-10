@@ -1,8 +1,9 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
-#include<concrt.h>
+#include<conio.h>
 #include<fstream>
 #include<string>
+#include<sstream>
 #include<map>
 #include<list>
 #include<ctime>
@@ -201,10 +202,27 @@ std::map<std::string, std::list<Crime>> load(const std::string& filename)
 	{
 		while (!fin.eof())
 		{
-			/*std::string buffer;
-			std::getline(fin, buffer, ':');
-			char delimiter[]=":"*/
+			std::string licence_plate;
+			std::getline(fin, licence_plate, ':');
+			fin.ignore();
 
+			std::string crimes;
+			std::getline(fin, crimes);
+			char* sz_buffer = new char[crimes.size() + 1]{};
+			strcpy(sz_buffer, crimes.c_str());
+			char delimeters[] = ",";
+			Crime crime(0, "plase", "00:00 01.01.2000");
+			for (char* pch = strtok(sz_buffer, delimeters); pch; pch = strtok(NULL, delimeters))
+			{
+				std::cout << pch << "\t";
+				//std::string s_crime(pch);
+				std::stringstream ss_crime(pch, std::ios_base::in | std::ios_base::out);
+				//Crime crime(0, "plase", "00:00 01.01.2000");
+				ss_crime >> crime;
+				base[licence_plate].push_back(crime);
+			}
+			cout << endl;
+			delete[] sz_buffer;
 		}
 		fin.close();
 	}
